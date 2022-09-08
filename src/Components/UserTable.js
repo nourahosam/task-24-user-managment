@@ -1,55 +1,67 @@
-import React from 'react';
-import { TableContainer, TableBody, Table, TableRow, TableHead, TableCell, Paper, TextField, MenuItem } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { TableContainer, TableBody, Table, TableRow, TableHead, TableCell, Paper, Button } from '@mui/material';
+import { deleteUserService, fetchUsersService } from '../Services/Users/userActions';
+import UpdateForm from './UpdateForm';
 
 const UserTable = () => {
-    return (<TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-            <TableHead>
-                <TableRow>
-                    <TableCell align='left'>Name</TableCell>
-                    <TableCell align='left'>Username</TableCell>
-                    <TableCell align='left'>Email Address</TableCell>
-                    <TableCell align='left'>Group</TableCell>
-                    <TableCell align='left'>Status</TableCell>
-                    <TableCell align='left'>Created on</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableRow key={1}>
-                    <TableCell>
-                        Noura
-                    </TableCell>
-                    <TableCell>
-                        Noura
-                    </TableCell>
-                    <TableCell>
-                        Noura
-                    </TableCell>
-                    <TableCell>
-                        Noura
-                    </TableCell>
-                    <TableCell>
-                        <TextField
-                            sx={{width: 200}}
-                            id='standard-select'
-                            select
-                            value='Activee'
-                            variant='standard'>
-                                <MenuItem key='active' value='active'>
-                                Active
-                                </MenuItem>
-                                <MenuItem key='inactive' value='inactive'>
-                                Inactive
-                                </MenuItem>
-                        </TextField>
-                    </TableCell>
-                    <TableCell>
-                        Noura
-                    </TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
-    </TableContainer>)
+    const state = useSelector((state) => state);
+    const [isLoaded, setLoading] = useState(false);
+    const [modal, setModal] = useState(false);
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        dispatch(fetchUsersService());
+        console.log("useEffect", state);
+        setLoading(true)
+    }, [])
+
+
+    if (isLoaded)
+        return (<TableContainer component={Paper}>
+            {console.log("Main Component", state)}
+
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell align='left'>ID</TableCell>
+                        <TableCell align='left'>First Name</TableCell>
+                        <TableCell align='left'>Last Name</TableCell>
+                        <TableCell align='left'>Email Address/Picture</TableCell>
+                        <TableCell align='left'>Delete</TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    {isLoaded && state.users.users.map((val) => {
+                        return(<TableRow>
+                            <TableCell>
+                                {val.id}
+                            </TableCell>
+                            <TableCell>
+                                {val.firstName}
+                            </TableCell>
+                            <TableCell>
+                                {val.lastName}
+                            </TableCell>
+                            <TableCell>
+                                {val.email} {val.picture && <img src={`${val.picture}`}/>}
+                            </TableCell>
+                            <TableCell>
+                                <Button onClick={(e)=>{dispatch(deleteUserService(val.id))}}>Delete</Button>
+                                <Button onClick={(e)=>{}}>Update</Button>
+                            </TableCell>
+                        </TableRow>)
+                    })}
+
+                </TableBody>
+
+            </Table>
+        </TableContainer>)
+    return (<div>Loading</div>)
+
+
 }
 
 export default UserTable;

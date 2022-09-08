@@ -36,3 +36,18 @@
     transform: rotate(360deg);
   }
 }
+
+.form-header{
+  /* width: 100%; */
+  background-color: navy;
+  height: 50px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 20px;
+  padding-right: 20px;
+  /* width: 100%; */
+  
+}
