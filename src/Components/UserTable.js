@@ -7,7 +7,8 @@ import UpdateForm from './UpdateForm';
 const UserTable = () => {
     const state = useSelector((state) => state);
     const [isLoaded, setLoading] = useState(false);
-    const [modal, setModal] = useState(false);
+    const [user, setUser] = useState([]);
+    const [update, setUpdate] = useState(false);
     const dispatch = useDispatch();
 
 
@@ -50,7 +51,7 @@ const UserTable = () => {
                             </TableCell>
                             <TableCell>
                                 <Button onClick={(e)=>{dispatch(deleteUserService(val.id))}}>Delete</Button>
-                                <Button onClick={(e)=>{}}>Update</Button>
+                                <Button onClick={(e)=>{setUpdate(true); setUser(val);}}>Update</Button>
                             </TableCell>
                         </TableRow>)
                     })}
@@ -58,6 +59,7 @@ const UserTable = () => {
                 </TableBody>
 
             </Table>
+            <UpdateForm update={update} setUpdate={setUpdate} user={user} />
         </TableContainer>)
     return (<div>Loading</div>)
 

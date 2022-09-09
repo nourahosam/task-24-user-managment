@@ -1,5 +1,5 @@
 import UserActionTypes from "./userTypes";
-import deleteItem from "../Utils/modifiers";
+import {deleteItem, updateItem} from "../Utils/modifiers";
 
 const InitialState = {
     isFetching: false,
@@ -25,6 +25,11 @@ const userReducer = (state = InitialState, action) =>{
                 isFetching:false,
                 users: deleteItem(state.users, action.payload)
             };
+        case UserActionTypes.UPDATE_USER:
+            return {
+                isFetching: false,
+                users: updateItem(state.users, action.payload)
+            }
         default:
             return state;
 

@@ -1,6 +1,5 @@
 import UserActionTypes from "./userTypes";
 import APIs from "../Utils/APIs";
-import deleteItem from "../Utils/modifiers";
 
 export const fetchUserAction = (payload) => {
     console.log("fetchUserAction", payload)
@@ -16,6 +15,11 @@ export const addUserAction = (payload) => ({
 
 export const deleteUserAction = (payload) => ({
     type: UserActionTypes.DELETE_USER,
+    payload
+})
+
+export const updateUserAction = (payload) => ({
+    type: UserActionTypes.UPDATE_USER,
     payload
 })
 
@@ -58,8 +62,9 @@ export const deleteUserService = (payload) => async (dispatch) => {
 
 export const updateUserService = (payload) => async (dispatch) => {
     try{
-        const respones = await APIs.updateUserAPI(payload);
-        //dispatch(updateUserAction(response))
+        const response = await APIs.updateUserAPI(payload);
+        console.log("updateUserService", response)
+        dispatch(updateUserAction(response))
     }catch(error){
         console.log("updateUserService Error",error);
     }

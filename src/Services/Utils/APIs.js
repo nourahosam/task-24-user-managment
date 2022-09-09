@@ -37,12 +37,17 @@ const deleteUsersAPI = async (payload) => {
 
 const updateUserAPI = async (payload) => {
     var response = {};
-    await axios.put(`https://dummyapi.io/data/v1/user/${payload}`, 
+    await axios.put(`https://dummyapi.io/data/v1/user/${payload.id}`, 
+    {
+        firstName: payload.firstName,
+        lastName: payload.lastName
+    },
     {headers: {"app-id": '6315d3d6206ab66b231df9bd'}})
     .then((res) => {
-        console.log('UPDATE RESPONSE API', res);
-        response = res;
+        console.log('UPDATE RESPONSE API', res.data);
+        response = res.data;
     })
+    return response;
 }
 
 export default { fetchUsersAPI, addUserAPI, deleteUsersAPI, updateUserAPI };

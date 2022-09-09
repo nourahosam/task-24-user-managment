@@ -25,19 +25,22 @@ let validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
 })
 
-const UpdateForm = ({ modal, setModal, user }) => {
-const dispatch = useDispatch();
-const onSubmit = (values) => {
-    const res = {firstName: values.firstName, lastName: values.lastName}
-    console.log("Submit",res);
-    dispatch(updateUserService(res));
+const UpdateForm = ({ update, setUpdate, user }) => {
+    const dispatch = useDispatch();
+
+    const onSubmit = (values) => {
+        const res = { id: user.id, firstName: values.firstName, lastName: values.lastName }
+        console.log("Submit", res);
+        dispatch(updateUserService(res)); 
+        console.log("SUBMIT")
     }
+
     return (
-        <Dialog open={modal} onClose={() => setModal(false)} sx={{}}>
+        <Dialog open={update} onClose={() => setUpdate(false)} >
             <Grid container fullWidth>
                 <Grid item fullWidth>
                     <Card>
-                        <div className='form-header'><h4>Update User {user.id}</h4><CloseIcon onClick={() => setModal(false)} /></div>
+                        <div className='form-header'><h4>Update User {user.id}</h4><CloseIcon onClick={() => setUpdate(false)} /></div>
                         <Formik initialValues={initialValues}
                             validationSchema={validationSchema}
                             onSubmit={onSubmit}>
@@ -81,16 +84,20 @@ const onSubmit = (values) => {
                                                 variant="contained"
                                                 color="secondary"
                                                 type="Submit"
-                                                onClick={(e)=>setModal(false)}
-                                                >
+                                                onClick={(e) =>{ setUpdate(false); 
+                                                console.log("values",values)    ;
+                                                onSubmit(values);}}
+                                            >
                                                 Update User
                                             </Button>
                                             <Button
                                                 variant="contained"
                                                 color="primary"
                                                 type="button"
-                                                onClick={(e)=>setModal(false)}
-                                                >
+                                                onClick={(e) => {setUpdate(false);
+                                                }
+                                                }
+                                            >
                                                 Cancel
                                             </Button>
                                         </CardActions>
