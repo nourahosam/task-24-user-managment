@@ -47,7 +47,7 @@ const UserTable = () => {
                                 {val.lastName}
                             </TableCell>
                             <TableCell>
-                                {val.email} {val.picture && <img src={`${val.picture}`}/>}
+                                {val.picture ? <img src={`${val.picture}`}/> : val.email} 
                             </TableCell>
                             <TableCell>
                                 <Button onClick={(e)=>{dispatch(deleteUserService(val.id))}}>Delete</Button>
